@@ -7,7 +7,7 @@ The project features and description are available at the file [project_descript
 ### Features
 - [X] Menu with the available actions
 - [X] Add Elements
-- [ ] Show Elements
+- [X] Show Elements
 - [X] Show List 
 - [ ] Delete Elements
 - [X] Quit the application
