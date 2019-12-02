@@ -9,10 +9,10 @@
 	print_list_header: .asciiz "\n-- List --\n"
 	new_line: .asciiz "\n"
 	
+	menu_selection: .word -1
 	max_list_size: .word -1
-	current_list_size: .word 0
+	current_list_size: .word 1
 	list: .word
-	menu_selection: .word 999
 	
 .text
 	la 	$a0, list_size_prompt
@@ -21,6 +21,8 @@
 	
 	li 	$v0, 5
 	syscall
+	
+	addi 	$v0, $v0, 1
 	sw 	$v0, max_list_size
 	
 loop:		
@@ -105,23 +107,19 @@ print_list:
 	syscall
 	
 	la 	$s0, list
-	li 	$s1, 0
+	li 	$s1, 1
 	la	$s2, current_list_size
 	lw 	$s2, ($s2)
 	
 for:
 	beq 	$s1, $s2, loop
+	
 	li 	$t0, 4
-
 	mul 	$t0, $t0, $s1
 	
 	add 	$t0, $t0, $s0
 	lw 	$a0, 0($t0)	
 	jal 	print_int
-	
-	la 	$a0, new_line
-	li 	$v0, 4
-	syscall	
 	
 	addi 	$s1, $s1, 1
 	j 	for
@@ -143,6 +141,10 @@ print_int:
 	
 	li 	$v0, 1
 	syscall
+	
+	la 	$a0, new_line
+	li 	$v0, 4
+	syscall	
 	
 	jr 	$ra
 

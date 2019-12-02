@@ -6,7 +6,7 @@ The project features and description are available at the file [project_descript
 
 ### Features
 - [X] Menu with the available actions
-- [ ] Add Elements
+- [X] Add Elements
 - [ ] Show Elements
 - [X] Show List 
 - [ ] Delete Elements
