@@ -4,10 +4,12 @@
 	invalid_option_message: .asciiz "\nInvalid Option! Try again.\n"
 	exit_message: .asciiz "\nFinishing the application!\n"
 	add_element_prompt: .asciiz "\nElement to add >> "
-	full_list_error_message: .asciiz "\n\nThe list is full! Action aborted.\n\n"
+	full_list_error_message: .asciiz "\nThe list is full! Action aborted.\n"
 	recover_element_prompt: .asciiz "\nElement position >> "
 	print_list_header: .asciiz "\n-- List --\n"
 	new_line: .asciiz "\n"
+	recovered_value: .asciiz "\nValue at the given position: "
+	invalid_position_message: .asciiz "\nInvalid position!\n"
 	
 	menu_selection: .word -1
 	max_list_size: .word -1
@@ -99,6 +101,30 @@ recover_element:
 	li 	$v0, 5
 	syscall
 	
+	blez 	$v0, invalid_position_error
+	la	$t1, max_list_size
+	lw	$t1, ($t1)
+	bge  	$v0, $t1, invalid_position_error
+	
+	li 	$t0, 4
+	la	$t1, list
+	mul 	$t0, $t0, $v0
+	add	$t0, $t0, $t1
+	
+	la 	$a0, recovered_value
+	li 	$v0, 4
+	syscall
+	
+	lw	$a0, ($t0)
+	jal 	print_int
+	
+	j	loop
+	
+invalid_position_error:
+	la 	$a0, invalid_position_message
+	li 	$v0, 4
+	syscall
+		
 	j	loop
 	
 print_list:
