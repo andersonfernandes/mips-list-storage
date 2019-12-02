@@ -1,12 +1,12 @@
 .data
 	list_size_prompt: .asciiz "\nMax list size >> "
 	menu_prompt: .asciiz "\n-- MIPS List Storage  --\n\n 1 - Add Elements \n 2 - Recover Element \n 3 - Print List \n 4 - Remove Element \n 5 - Exit \n\n>> "
-	invalid_option_prompt: .asciiz "\nInvalid Option! Try again.\n"
-	exit_prompt: .asciiz "\nFinishing the application!\n"
+	invalid_option_message: .asciiz "\nInvalid Option! Try again.\n"
+	exit_message: .asciiz "\nFinishing the application!\n"
 	add_element_prompt: .asciiz "\nElement to add >> "
-	full_list_error_prompt: .asciiz "\n\nThe list is full! Action aborted.\n\n"
+	full_list_error_message: .asciiz "\n\nThe list is full! Action aborted.\n\n"
 	recover_element_prompt: .asciiz "\nElement position >> "
-	print_list_prompt: .asciiz "\n-- List --\n"
+	print_list_header: .asciiz "\n-- List --\n"
 	new_line: .asciiz "\n"
 	
 	max_list_size: .word -1
@@ -35,7 +35,7 @@ loop:
 	beq	$t0, 4, delete_element
 	beq	$t0, 5, end_loop
 		
-	la 	$a0, invalid_option_prompt
+	la 	$a0, invalid_option_message
 	li 	$v0, 4
 	syscall
 	
@@ -77,7 +77,7 @@ add_element:
 	j	loop
 	
 add_element_error:
-	la 	$a0, full_list_error_prompt
+	la 	$a0, full_list_error_message
 	li 	$v0, 4
 	syscall
 		
@@ -94,7 +94,7 @@ recover_element:
 	j	loop
 	
 print_list:
-	la	$a0, print_list_prompt
+	la	$a0, print_list_header
 	li	$v0, 4
 	syscall
 	
@@ -111,7 +111,7 @@ for:
 	
 	add 	$t0, $t0, $s0
 	lw 	$a0, 0($t0)	
-	jal 	print_element
+	jal 	print_int
 	
 	la 	$a0, new_line
 	li 	$v0, 4
@@ -130,7 +130,7 @@ delete_element:
 	
 	j	loop
 
-print_element:
+print_int:
 	# Execute before to load the INT at $a0
 	#la $t0, list_size
 	#lw $a0, ($t0)
@@ -141,7 +141,7 @@ print_element:
 	jr 	$ra
 
 exit:
-	la	$a0, exit_prompt
+	la	$a0, exit_message
 	li	$v0, 4
 	syscall
 	
