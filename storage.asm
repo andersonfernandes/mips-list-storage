@@ -61,6 +61,7 @@ add_element:
 	lw 	$s0, ($s0)
 	la	$s1, max_list_size
 	lw 	$s1, ($s1)
+	la	$s2, list
 	
 	beq	$s0, $s1, add_element_error
 	
@@ -71,8 +72,13 @@ add_element:
 	li 	$v0, 5
 	syscall
 	
-	la	$s2, list
-	sw 	$v0, 8($s2)
+	li 	$t0, 4
+	mul 	$t0, $t0, $s0
+	add 	$t0, $t0, $s2
+		
+	sw 	$v0, 0($t0)
+	addi 	$s0, $s0, 1
+	sw	$s0, current_list_size
 	
 	j	loop
 	
