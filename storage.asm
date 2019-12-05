@@ -98,18 +98,7 @@ recover_element:
 	li	$v0, 4
 	syscall
 	
-	li 	$v0, 5
-	syscall
-	
-	blez 	$v0, invalid_position_error
-	la	$t1, max_list_size
-	lw	$t1, ($t1)
-	bge  	$v0, $t1, invalid_position_error
-	
-	li 	$t0, 4
-	la	$t1, list
-	mul 	$t0, $t0, $v0
-	add	$t0, $t0, $t1
+	jal get_element_by_position
 	
 	la 	$a0, recovered_value
 	li 	$v0, 4
@@ -118,13 +107,6 @@ recover_element:
 	lw	$a0, ($t0)
 	jal 	print_int
 	
-	j	loop
-	
-invalid_position_error:
-	la 	$a0, invalid_position_message
-	li 	$v0, 4
-	syscall
-		
 	j	loop
 	
 print_list:
@@ -155,16 +137,36 @@ delete_element:
 	li	$v0, 4
 	syscall
 	
-	li 	$v0, 5
-	syscall
+	jal get_element_by_position
 	
 	j	loop
 
-print_int:
-	# Execute before to load the INT at $a0
-	#la $t0, list_size
-	#lw $a0, ($t0)
+get_element_by_position:
+	# When given an valid element position the element will be loaded into $t0
+	# When given an invalid element position a message will be displayed
+	li 	$v0, 5
+	syscall
 	
+	blez 	$v0, invalid_position_error
+	la	$t1, current_list_size
+	lw	$t1, ($t1)
+	bge  	$v0, $t1, invalid_position_error
+	
+	li 	$t0, 4
+	la	$t1, list
+	mul 	$t0, $t0, $v0
+	add	$t0, $t0, $t1
+	
+	jr 	$ra
+	
+invalid_position_error:
+	la 	$a0, invalid_position_message
+	li 	$v0, 4
+	syscall
+		
+	j	loop
+
+print_int:	
 	li 	$v0, 1
 	syscall
 	
