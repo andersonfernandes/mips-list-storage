@@ -9,5 +9,5 @@ The project features and description are available at the file [project_descript
 - [X] Add Elements
 - [X] Show Elements
 - [X] Show List 
-- [ ] Delete Elements
+- [X] Delete Elements
 - [X] Quit the application

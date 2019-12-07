@@ -155,8 +155,6 @@ delete_element:
 	j	loop
 
 get_element_by_position:
-	# When given an valid element position the element will be loaded into $t0
-	# When given an invalid element position a message will be displayed
 	li 	$v0, 5
 	syscall
 	
