@@ -126,7 +126,7 @@ for:
 	mul 	$t0, $t0, $s1
 	
 	add 	$t0, $t0, $s0
-	lw 	$a0, 0($t0)	
+	lw 	$a0, 0($t0)
 	jal 	print_int
 	
 	addi 	$s1, $s1, 1
@@ -137,7 +137,20 @@ delete_element:
 	li	$v0, 4
 	syscall
 	
-	jal get_element_by_position
+	jal 	get_element_by_position
+	
+	la 	$s0, list
+	la	$s1, current_list_size
+	lw 	$s1, ($s1)
+	sub	$s1, $s1, 1
+	li 	$t1, 4
+	
+	mul 	$t1, $t1, $s1
+	add 	$t1, $t1, $s0
+	
+	lw 	$t1, ($t1)
+	sw	$t1, ($t0)
+	sw 	$s1, current_list_size
 	
 	j	loop
 
